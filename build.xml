@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project basedir="." default="compile" name="HelloHibernate">
+
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="doc.dir" value="${basedir}/doc" />
+
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="dist.dir" value="${build.dir}/classes" />
+
+	<path id="libraries">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<target name="compile" depends="clean, copy-resources">
+		<mkdir dir="${dist.dir}" />
+		<javac srcdir="${src.dir}"
+		       destdir="${dist.dir}"
+		       classpathref="libraries" />
+	</target>
+
+	<target name="copy-resources">
+		<copy todir="${dist.dir}">
+			<fileset dir="${src.dir}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="run" depends="compile">
+		<java fork="true"
+		      classname="test.EventManager"
+		      classpathref="libraries">
+			<classpath path="${dist.dir}" />
+			<arg value="${action}" />
+		</java>
+	</target>
+</project>

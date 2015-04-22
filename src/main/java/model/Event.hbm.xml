@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="main.java.model.Event" table="EVENTS">
+		<id name="id" column="EVENT_ID">
+			<generator class="native" />
+		</id>
+		<property name="date" column="EVENT_DATE"
+		          type="timestamp" />
+		<property name="title" column="EVENT_TITLE"
+		          type="string" />
+
+		<set name="participants" table="PERSON_EVENT" inverse="true" lazy="false">
+			<key column="EVENT_ID"/>
+			<many-to-many column="PERSON_ID" class="main.java.model.Person"/>
+		</set>
+	</class>
+</hibernate-mapping>
