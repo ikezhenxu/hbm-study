@@ -5,6 +5,7 @@ import main.java.model.Person;
 import main.java.util.HbmUtil;
 import org.hibernate.Session;
 
+import java.lang.Long;
 import java.util.Date;
 import java.util.List;
 
@@ -22,13 +23,19 @@ public class EventManager {
 			List<Event> events = manager.listEvent ();
 			for ( Event event : events ) {
 				System.out.println ( "Event:" + event.getTitle ()
-						                     + "\tDate:" + event.getDate () );
+						                     + "\tDate:" + event.getDate ()
+											+ "\tParticipants:"+event.getParticipants());
 			}
 		}
 		else if ( args[ 0 ].equals ( "addPersonToEvent" ) ) {
 			Long eventId = manager.createAndStoreEvent ( "MyEvent", new Date () );
 			Long personId = manager.createAndStorePerson ( "Foo", "Bar" );
 			manager.addPersonToEvent ( personId, eventId );
+		}
+		else if (args[0].equals("delete")) {
+			Long personId = manager.createAndStorePerson("FOO1", "BAR1");
+			Person person = manager.delete(personId);
+			System.out.println(person.getId());
 		}
 
 		HbmUtil.getSessionFactory ().close ();
@@ -43,8 +50,8 @@ public class EventManager {
 		event.setTitle ( aTitle );
 		event.setDate ( aDate );
 		session.save ( event );
-		session.getTransaction ()
-		       .commit ();
+		session.getTransaction()
+		       .commit();
 		return event.getId ();
 	}
 
@@ -54,8 +61,8 @@ public class EventManager {
 				.getCurrentSession ();
 		session.beginTransaction ();
 		Person person = new Person ();
-		person.setFirstName ( firstName );
-		person.setLastName ( lastName );
+		person.setFirstName(firstName);
+		person.setLastName(lastName);
 		session.save ( person );
 		session.getTransaction ()
 		       .commit ();
@@ -66,7 +73,7 @@ public class EventManager {
 		Session session = HbmUtil
 				.getSessionFactory ()
 				.getCurrentSession ();
-		session.beginTransaction ();
+		session.beginTransaction();
 		List<Event> events = session
 				.createQuery ( "from Event" )
 				.list ();
@@ -80,9 +87,23 @@ public class EventManager {
 				.getSessionFactory ()
 				.getCurrentSession ();
 		session.beginTransaction ();
-		Person person = ( Person ) session.load ( Person.class, personId );
-		Event  event  = ( Event ) session.load ( Event.class, eventId );
+//		Person person = ( Person ) session.load(Person.class, personId);
+//		Event  event  = ( Event ) session.load ( Event.class, eventId );
+		Person person = ( Person ) session.get(Person.class, personId);
+		Event  event  = ( Event ) session.get ( Event.class, eventId );
 		person.getEvents ().add ( event );
-		session.getTransaction ().commit ();
+		session.getTransaction ().commit();
+	}
+
+	private Person delete(Long personId) {
+		Session session = HbmUtil
+				.getSessionFactory ()
+				.getCurrentSession ();
+		session.beginTransaction();
+		Person person = ( Person ) session.get(Person.class, personId);
+		session.delete(person);
+		session.getTransaction()
+				.commit();
+		return person;
 	}
 }

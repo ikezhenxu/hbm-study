@@ -11,9 +11,10 @@
 		          type="timestamp" />
 		<property name="title" column="EVENT_TITLE"
 		          type="string" />
-		<set name="participants" table="PERSON_EVENT" inverse="true">
+
+		<set name="participants" table="PERSON_EVENT" inverse="true" lazy="false">
 			<key column="EVENT_ID"/>
-			<many-to-many column="PERSON_ID" class="main.java.model.Person" />
+			<many-to-many column="PERSON_ID" class="main.java.model.Person"/>
 		</set>
 	</class>
 </hibernate-mapping>
