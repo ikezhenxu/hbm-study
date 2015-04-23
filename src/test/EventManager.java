@@ -3,9 +3,8 @@ package test;
 import main.java.model.Event;
 import main.java.model.Person;
 import main.java.util.HbmUtil;
-import org.hibernate.Session;
+import org.hibernate.classic.Session;
 
-import java.lang.Long;
 import java.util.Date;
 import java.util.List;
 

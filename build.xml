@@ -2,14 +2,14 @@
 <project basedir="." default="compile" name="HelloHibernate">
 
 	<property name="src.dir" value="${basedir}/src" />
-	<property name="lib.dir" value="${basedir}/lib2" />
+	<property name="lib.dir" value="${basedir}/lib" />
 	<property name="doc.dir" value="${basedir}/doc" />
 
 	<property name="build.dir" value="${basedir}/build" />
 	<property name="dist.dir" value="${build.dir}/classes" />
 
 	<path id="libraries">
-		<fileset dir="lib2">
+		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
 		</fileset>
 	</path>
