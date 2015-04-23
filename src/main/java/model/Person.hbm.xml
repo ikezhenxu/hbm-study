@@ -2,23 +2,38 @@
 <!DOCTYPE hibernate-mapping PUBLIC
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping>
-	<class name="main.java.model.Person" table="PERSON">
+<hibernate-mapping
+	package="main.java.model"
+	default-cascade="none"
+	default-lazy="false">
+	<class name="Person"
+	       table="PERSON"
+	       discriminator-value="0">
+
 		<id name="id" column="PERSON_ID">
 			<generator class="native" />
 		</id>
+
+		<discriminator column="flag"
+		               type="string" />
+
 		<property name="age" />
 		<property name="firstName" />
 		<property name="lastName" />
 
 		<set name="events" table="PERSON_EVENT">
-			<key column="PERSON_ID"/>
-			<many-to-many column="EVENT_ID" class="main.java.model.Event" />
+			<key column="PERSON_ID" />
+			<many-to-many column="EVENT_ID" class="Event" />
 		</set>
 
 		<set name="emailAddresses" table="PERSON_EMAIL_ADDR">
 			<key column="PERSON_ID" />
 			<element type="string" column="EMAIL_ADDR" />
 		</set>
+
+		<subclass discriminator-value="1"
+		          name="Student">
+			<property name="school" />
+		</subclass>
 	</class>
 </hibernate-mapping>

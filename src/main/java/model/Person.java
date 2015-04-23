@@ -9,6 +9,7 @@ import java.util.Set;
 public class Person {
 
 	private Long    id;
+	private String flag;
 	private Integer age;
 	private String  firstName;
 	private String  lastName;
@@ -24,6 +25,14 @@ public class Person {
 
 	private void setId ( Long aId ) {
 		id = aId;
+	}
+
+	public String getFlag () {
+		return flag;
+	}
+
+	public void setFlag ( String aFlag ) {
+		flag = aFlag;
 	}
 
 	public Integer getAge () {
@@ -64,5 +73,10 @@ public class Person {
 
 	public void setEmailAddresses ( Set<String> aEmailAddresses ) {
 		emailAddresses = aEmailAddresses;
+	}
+
+	@Override
+	public String toString () {
+		return "I am a person.";
 	}
 }

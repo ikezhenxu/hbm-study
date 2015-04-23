@@ -2,19 +2,46 @@
 <!DOCTYPE hibernate-mapping PUBLIC
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping>
-	<class name="main.java.model.Event" table="EVENTS">
+<hibernate-mapping
+	package="main.java.model"
+	auto-import="true"
+	default-cascade="none"
+	default-lazy="false">
+	<!-- auto-import    :ENABLES NOT TO USE FULL-QUALIFIED NAME IN HQL,
+						 IF YOU HAVE TWO CLASSES WITH THE SAME NAME BUT
+						 IN DIFFERENT PACKAGES, THIS ATTRIBUTE SHOULD BE
+						 SET AS FALSE TO AVOID EXCEPTION -->
+	<!-- default-lazy   :WHEN A JAVA PROPERTY OR A SET CLASS DID NOT SPECIFY
+						 A lazy ATTRIBUTE, HIBERNATE WILL USE THIS default-lazy -->
+	<class name="Event"
+	       table="EVENTS"
+	       dynamic-insert="true"
+	       dynamic-update="true"
+	       >
+		<!-- mutable="false"    :THIS MAKES THE TABLE CAN NOT BE MODIFIED
+								 NOTE THAT IT WON'T THROW EXCEPTION OR ERROR
+			 dynamic-insert
+			 dynamic-update     :SPECIFY THAT THE insert AND update SQLs ARE DYNAMICALLY
+			                     GENERATED IN RUNTIME AND ONLY CONTAINS THOSE NOT-NULL FIELDS -->
+
 		<id name="id" column="EVENT_ID">
 			<generator class="native" />
 		</id>
+		<!--  unsaved-value="-1"    :USE A SPECIFIC SENSIBLE VALUE TO POINT OUT THAT
+									 THIS IS AN UNSAVED INSTANCE
+									 NOTE THIS IS UNNECESSARY IN HIBERNATE 3 AND ABOVE -->
+
+		<!-- composite-id   :CLASS MUST IMPLEMENT Serializable INTERFACE AND
+							 OVERRIDE equals() AND hashCode() METHOD TO IMPLEMENT
+							 THE EQUALITY JUDGMENT IN COMPOSITE-ID -->
 		<property name="date" column="EVENT_DATE"
 		          type="timestamp" />
 		<property name="title" column="EVENT_TITLE"
 		          type="string" />
 
-		<set name="participants" table="PERSON_EVENT" inverse="true" lazy="false">
-			<key column="EVENT_ID"/>
-			<many-to-many column="PERSON_ID" class="main.java.model.Person"/>
+		<set name="participants" table="PERSON_EVENT" inverse="true">
+			<key column="EVENT_ID" />
+			<many-to-many column="PERSON_ID" class="Person" />
 		</set>
 	</class>
 </hibernate-mapping>

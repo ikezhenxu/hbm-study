@@ -20,6 +20,7 @@
 		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 
 		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
 
 		<!--<property name="use_sql_comments">true</property>-->
 
@@ -33,7 +34,7 @@
 				PointBase 	 	不支持 	 					数据库名
 
   		-->
-		<!--<property name="default_schema">test</property>-->
+		<property name="default_schema">test</property>
 		<!--<property name="default_catalog">kzx</property>-->
 
 		<!-- OUTER JOIN MAX DEPTH -->
@@ -46,7 +47,7 @@
 			ID TO DEFAULT VALUE -->
 		<!--<property name="use_identifier_rollback">true</property>-->
 
-
+		<!--<property name="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</property>-->
 		<mapping resource="main/java/model/Event.hbm.xml" />
 		<mapping resource="main/java/model/Person.hbm.xml" />
 	</session-factory>

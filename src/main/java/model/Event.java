@@ -53,4 +53,5 @@ public class Event {
 	public void setParticipants ( Set<Person> aParticipants ) {
 		participants = aParticipants;
 	}
+
 }
